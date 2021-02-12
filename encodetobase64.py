@@ -143,38 +143,78 @@ def adjust_string_length(string_to_adjust):
 def main():
     """The main function"""
     text = input("Enter the text to encode: ")
+    #
+    # First, we need to convert the string to a list
+    # Then transforms the list from a list of characters to a list of unicode codes
+    #
     unicode = char_list_to_unicode(text)
     # print("1,2 - ", unicode)
 
+    #
+    # Then we pass it to a function that will convert the list to a list of
+    # binary values
+    #
     binary = unicode_to_binary(unicode)
     # print("3 - : ", binary)
 
+    #
+    # Then, we strip the format header "0b" from each list item as it won't be useful afterwards
+    #
     cleaned_binary = rem_header(binary)
     # print("4 - ", cleaned_binary)
 
+    #
+    # When we have our list with the "headers" stripped, we will set each item back to 8 characters
+    #
     filled_list = fill_list_with_zs(cleaned_binary)
     # print("5 - ", filled_list)
 
+    #
+    # We convert this list to a string
+    #
     filled_list_as_string = list_tostring(filled_list)
     # print("6 - ", filled_list_as_string)
 
+    #
+    # And then split it back to a list of items of 6 characters each.
+    #
     six_list = split_by_six_pack(filled_list_as_string)
     # print("7 - ", six_list)
 
+    #
+    # Then we check the length of the last list item and fill it's right side with zeros if it's
+    # shorter than 6 characters long.
+    #
     justified_list = fill_with_zeros(six_list)
     # print("8 - ", justified_list)
 
+    #
+    # When we have our list, it will be converted to a list of base64 codes
+    #
     codes_list = transform_to_code_list(justified_list)
     # print("9 - ", codes_list)
 
+    #
+    # Then we update translate each list item code to it's corresponding character
+    #
     base64_chars_list = code_list_to_base64(codes_list)
     # print("10 - ", base64_chars_list)
 
+    #
+    # Convert it to a string (again)
+    #
     base64_string = list_tostring(base64_chars_list)
     # print("11 - ", base64_string)
 
+    #
+    # And finally, check if it's a multiple of 4. If not, add a filling character to the end.
+    #
     base64_encoded_text = adjust_string_length(base64_string)
     # print("12 - ", base64_encoded_text)
+
+    #
+    # Displays the result to the user
+    #
     print("Base64-encoded text: ", base64_encoded_text)
 
 
